@@ -29,8 +29,8 @@ void EnableDpiAwareness()
         }
     }
 
-    // Repli pour les versions de Windows antérieures à la
-    // prise en charge du per-monitor V2 (Windows 10 1703+).
+    // Fallback for Windows versions predating per-monitor V2
+    // support (Windows 10 1703+).
 
     SetProcessDPIAware();
 }

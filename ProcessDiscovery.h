@@ -1,35 +1,35 @@
 #pragma once
 
 // ============================================================
-// Recherche du processus/fenêtre Ruby, encapsulation, job
-// object et nettoyage.
+// Ruby process/window discovery, embedding, job object and
+// cleanup.
 // ============================================================
 
 #include "AppState.h"
 
 // ============================================================
-// Prépare une fenêtre pour encapsulation
+// Prepares a window for embedding
 // ============================================================
 
 void PrepareChildWindow(
     HWND hwnd);
 
 // ============================================================
-// Recherche vraie fenêtre de jeu
+// Finds the actual game window
 // ============================================================
 
 HWND FindMainWindow(
     DWORD pid);
 
 // ============================================================
-// Processus
+// Process
 // ============================================================
 
 bool IsRubyProcess(
     const wchar_t* exeName);
 
 // ============================================================
-// Recherche Ruby
+// Ruby discovery
 // ============================================================
 
 bool FindRubyProcess();
@@ -41,7 +41,7 @@ bool FindRubyProcess();
 bool CreateSecurityJob();
 
 // ============================================================
-// Nettoyage
+// Cleanup
 // ============================================================
 
 void Cleanup();

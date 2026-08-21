@@ -3,49 +3,48 @@
 // Dynamic Resolution / Integer Upscale / Fake Fullscreen
 // Windows Desktop Application (Visual Studio)
 //
-// MODES :
+// MODES:
 //
-// 1. Fenêtré normal
-//    - La fenêtre Windows fait exactement la résolution du jeu.
-//    - Aucun upscale.
-//    - Exemple : Ruby 640x480 -> fenêtre client 640x480.
+// 1. Normal windowed
+//    - The Windows window is exactly the game's resolution.
+//    - No upscale.
+//    - Example: Ruby 640x480 -> 640x480 client window.
 //
-// 2. Fenêtré complet / maximisé
-//    - La fenêtre host peut occuper tout l'écran.
-//    - Le jeu reste à sa résolution native.
-//    - Le jeu est simplement centré, quel que soit ScaleMode
-//      (non utilisé dans ce mode).
-//    - AUCUN upscale.
+// 2. Full / maximized windowed
+//    - The host window can occupy the whole screen.
+//    - The game stays at its native resolution.
+//    - The game is simply centered, regardless of ScaleMode
+//      (not used in this mode).
+//    - NO upscale.
 //
-//    Variante (WindowedUpscale=1 dans WinScaler.ini, actif
-//    par défaut) :
-//    - Le jeu est mis à l'échelle selon ScaleMode
-//      (LetterBox/Stretch/Fit), centré, en suivant
-//      dynamiquement la taille de la fenêtre host, sans
-//      passer en borderless fullscreen.
+//    Variant (WindowedUpscale=1 in WinScaler.ini, active by
+//    default):
+//    - The game is scaled according to ScaleMode
+//      (LetterBox/Stretch/Fit), centered, dynamically
+//      following the host window's size, without switching
+//      to borderless fullscreen.
 //
-// 3. Faux plein écran (Alt+Entrée)
-//    - La fenêtre host devient borderless fullscreen.
-//    - Le jeu est mis à l'échelle selon ScaleMode, comme en
-//      upscale fenêtré. LetterBox et Fit gardent leurs bandes
-//      (pas de déformation forcée) ; Stretch remplit tout
-//      l'écran.
+// 3. Fake fullscreen (Alt+Enter)
+//    - The host window becomes borderless fullscreen.
+//    - The game is scaled according to ScaleMode, same as in
+//      windowed upscale. LetterBox and Fit keep their bars (no
+//      forced distortion); Stretch fills the whole screen.
 //
-// ScaleMode (faux plein écran et WindowedUpscale=1) :
-//    - LetterBox : scale entier, bandes noires, pixel-parfait.
-//    - Stretch : remplit tout l'espace, déforme l'image.
-//    - Fit (défaut) : scale flottant, garde le ratio, bandes
-//      minimisées.
+// ScaleMode (fake fullscreen and WindowedUpscale=1):
+//    - LetterBox: integer scale, black bars, pixel-perfect.
+//    - Stretch: fills all space, distorts the image.
+//    - Fit (default): floating-point scale, keeps aspect
+//      ratio, minimal bars.
 //
-// IMPORTANT :
-// On ne subclass plus la fenêtre Ruby.
-// Le jeu appartient à un autre processus.
-// La résolution est surveillée par polling.
+// IMPORTANT:
+// The Ruby window is no longer subclassed.
+// The game belongs to another process.
+// Resolution is monitored via polling.
 //
-// Voir les autres fichiers pour le détail de chaque module :
-// AppState (état global / config), Utils, Config, Focus,
-// Layout (scale / positionnement), HostIdentity (titre/icône),
-// ProcessDiscovery (recherche Ruby / cleanup), WindowProcs
+// See the other files for the details of each module:
+// AppState (global state / config), Utils, Config, Focus,
+// Layout (scale / positioning), HostIdentity (title/icon),
+// ProcessDiscovery (Ruby discovery / cleanup), WindowProcs
 // (PanelProc / HostProc), DpiAwareness.
 // ============================================================
 
@@ -66,7 +65,7 @@
 #pragma comment(lib, "gdi32.lib")
 
 // ============================================================
-// Point d'entrée
+// Entry point
 // ============================================================
 
 int APIENTRY wWinMain(
@@ -76,7 +75,7 @@ int APIENTRY wWinMain(
     _In_ int nCmdShow)
 {
     // ========================================================
-    // DPI awareness (avant toute autre chose)
+    // DPI awareness (before anything else)
     // ========================================================
 
     EnableDpiAwareness();
@@ -88,7 +87,7 @@ int APIENTRY wWinMain(
     LoadConfig();
 
     // ========================================================
-    // Exécutable du jeu
+    // Game executable
     // ========================================================
 
     std::wstring root =
@@ -119,7 +118,7 @@ int APIENTRY wWinMain(
         L"1");
 
     // ========================================================
-    // Lancement de l'exécutable du jeu
+    // Launching the game executable
     // ========================================================
 
     STARTUPINFOW si =
@@ -166,7 +165,7 @@ int APIENTRY wWinMain(
     CreateSecurityJob();
 
     // ========================================================
-    // Recherche Ruby
+    // Ruby discovery
     // ========================================================
 
     if (!FindRubyProcess())
@@ -248,7 +247,7 @@ int APIENTRY wWinMain(
     }
 
     // ========================================================
-    // Résolution initiale Ruby
+    // Initial Ruby resolution
     // ========================================================
 
     int initialW = 0;
@@ -259,8 +258,8 @@ int APIENTRY wWinMain(
         initialW,
         initialH);
 
-    // Applique NativeWidth/NativeHeight (WinScaler.ini) si
-    // configuré, sinon utilise la taille détectée.
+    // Applies NativeWidth/NativeHeight (WinScaler.ini) if
+    // configured, otherwise uses the detected size.
 
     SetGameResolution(
         initialW,
@@ -273,14 +272,14 @@ int APIENTRY wWinMain(
         g.gameHeight;
 
     // ========================================================
-    // Préparer Ruby
+    // Preparing Ruby
     // ========================================================
 
     PrepareChildWindow(
         g.gameWnd);
 
     // ========================================================
-    // Classe panel
+    // Panel class
     // ========================================================
 
     WNDCLASSEXW wcPanel =
@@ -311,7 +310,7 @@ int APIENTRY wWinMain(
         &wcPanel);
 
     // ========================================================
-    // Classe host
+    // Host class
     // ========================================================
 
     WNDCLASSEXW wcHost =
@@ -347,11 +346,11 @@ int APIENTRY wWinMain(
         &wcHost);
 
     // ========================================================
-    // Fenêtre initiale :
+    // Initial window:
     //
-    // EXACTEMENT la résolution Ruby.
+    // EXACTLY the Ruby resolution.
     //
-    // Aucun upscale.
+    // No upscale.
     // ========================================================
 
     int initClientW =
@@ -381,8 +380,8 @@ int APIENTRY wWinMain(
         adj.bottom - adj.top;
 
     // --------------------------------------------------------
-    // Centre la fenêtre sur l'écran principal (zone de travail,
-    // hors barre des tâches).
+    // Center the window on the main screen (work area, outside
+    // the taskbar).
     // --------------------------------------------------------
 
     RECT workArea = {};
@@ -448,7 +447,7 @@ int APIENTRY wWinMain(
     }
 
     // ========================================================
-    // Encapsulation
+    // Embedding
     // ========================================================
 
     if (!SetParent(
@@ -478,9 +477,9 @@ int APIENTRY wWinMain(
     }
 
     // ========================================================
-    // Aucun subclass.
+    // No subclassing.
     //
-    // La surveillance est effectuée par
+    // Monitoring is performed by
     // PollGameResolution().
     // ========================================================
 
@@ -491,7 +490,7 @@ int APIENTRY wWinMain(
         g.gameHeight;
 
     // ========================================================
-    // Taille initiale du jeu
+    // Initial game size
     // ========================================================
 
     g.layoutInProgress = true;
@@ -515,7 +514,7 @@ int APIENTRY wWinMain(
     g.lastPanelHeight = 0;
 
     // ========================================================
-    // Alt + Entrée
+    // Alt + Enter
     // ========================================================
 
     RegisterHotKey(
@@ -535,7 +534,7 @@ int APIENTRY wWinMain(
         nullptr);
 
     // ========================================================
-    // Affichage
+    // Display
     // ========================================================
 
     ShowWindow(
@@ -546,13 +545,13 @@ int APIENTRY wWinMain(
         g.hostWnd);
 
     // ========================================================
-    // Layout initial
+    // Initial layout
     // ========================================================
 
     LayoutGame();
 
     // ========================================================
-    // Titre / icône host, alignés sur la fenêtre du jeu
+    // Host title / icon, kept in sync with the game window
     // ========================================================
 
     SyncHostTitle();
@@ -560,9 +559,9 @@ int APIENTRY wWinMain(
     SyncHostIcon();
 
     // --------------------------------------------------------
-    // INPUT :
-    // donner explicitement le focus au jeu après son
-    // encapsulation et l'affichage du host.
+    // INPUT:
+    // explicitly give focus to the game after embedding it and
+    // showing the host.
     // --------------------------------------------------------
 
     RequestFocusGame();

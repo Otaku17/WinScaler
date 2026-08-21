@@ -6,7 +6,7 @@
 #include <cmath>
 
 // ============================================================
-// Résolution native du jeu
+// Native game resolution
 // ============================================================
 
 bool SetGameResolution(
@@ -14,10 +14,10 @@ bool SetGameResolution(
     int height)
 {
     // --------------------------------------------------------
-    // Résolution native forcée (NativeWidth/NativeHeight dans
-    // WinScaler.ini) : remplace toute valeur détectée, qui peut
-    // être faussée par la virtualisation DPI cross-process si
-    // le jeu lui-même n'est pas DPI-aware.
+    // Forced native resolution (NativeWidth/NativeHeight in
+    // WinScaler.ini): overrides any detected value, which can
+    // be thrown off by cross-process DPI virtualization if the
+    // game itself isn't DPI-aware.
     // --------------------------------------------------------
 
     if (g.configuredNativeWidth > 0 &&
@@ -55,19 +55,19 @@ bool SetGameResolution(
 }
 
 // ============================================================
-// Calcule le rectangle de mise à l'échelle du jeu
+// Computes the game's scaled rectangle
 //
-// Utilisé en faux plein écran, et aussi en fenêtré/maximisé
-// si enableWindowedUpscale est actif (WinScaler.ini), avec le
-// ScaleMode configuré.
+// Used in fake fullscreen, and also in windowed/maximized mode
+// if enableWindowedUpscale is active (WinScaler.ini), using the
+// configured ScaleMode.
 //
-// IMPORTANT :
-// La résolution native du jeu reste gameW x gameH.
-// Seule la taille de sa fenêtre est agrandie.
+// IMPORTANT:
+// The game's native resolution stays gameW x gameH.
+// Only its window's size is enlarged.
 //
-// Voir ScaleMode pour le détail des modes. Le jeu est
-// toujours centré dans le panel (le panel, en fond noir,
-// occupe déjà tout l'espace disponible).
+// See ScaleMode for details on each mode. The game is always
+// centered in the panel (the panel, in black, already covers
+// all the available space).
 // ============================================================
 
 static void GetScaledRectangle(
@@ -96,8 +96,8 @@ static void GetScaledRectangle(
     }
 
     // --------------------------------------------------------
-    // Stretch : remplit tout le panel exactement, sans jamais
-    // dépasser ses limites, déforme si besoin.
+    // Stretch: fills the whole panel exactly, never exceeding
+    // its bounds, distorts the image if needed.
     // --------------------------------------------------------
 
     if (mode == ScaleMode::Stretch)
@@ -112,9 +112,9 @@ static void GetScaledRectangle(
     }
 
     // --------------------------------------------------------
-    // Fit : scale FLOTTANT, garde le ratio d'aspect, remplit
-    // au maximum sans dépasser le panel (bandes minimisées
-    // mais possibles).
+    // Fit: FLOATING-POINT scale, keeps aspect ratio, fills as
+    // much as possible without exceeding the panel (minimal
+    // bars, but possible).
     // --------------------------------------------------------
 
     if (mode == ScaleMode::Fit)
@@ -158,11 +158,10 @@ static void GetScaledRectangle(
     }
 
     // --------------------------------------------------------
-    // LetterBox (par défaut) : scale ENTIER uniquement
-    // (x1, x2, x3...) : le plus grand multiple entier qui
-    // tient dans le panel est utilisé, afin de ne jamais
-    // déformer l'image. Le jeu est centré, avec letterbox
-    // (bandes noires) si nécessaire.
+    // LetterBox (default): INTEGER scale only (x1, x2, x3...):
+    // the largest integer multiple that fits in the panel is
+    // used, so the image is never distorted. The game is
+    // centered, with letterbox (black bars) if needed.
     // --------------------------------------------------------
 
     int scaleX =
@@ -241,12 +240,12 @@ void LayoutGame()
     int targetH = g.gameHeight;
 
     // --------------------------------------------------------
-    // FAUX PLEIN ÉCRAN, ou fenêtré/maximisé avec
-    // enableWindowedUpscale actif (WinScaler.ini) : le jeu est
-    // mis à l'échelle selon ScaleMode. LetterBox et Fit gardent
-    // leurs bandes (pas de déformation forcée) ; Stretch
-    // remplit tout l'espace. Le plein écran ne force donc PAS
-    // Stretch quand l'utilisateur a choisi LetterBox ou Fit.
+    // FAKE FULLSCREEN, or windowed/maximized with
+    // enableWindowedUpscale active (WinScaler.ini): the game is
+    // scaled according to ScaleMode. LetterBox and Fit keep
+    // their bars (no forced distortion); Stretch fills the
+    // whole space. Fullscreen therefore does NOT force Stretch
+    // when the user chose LetterBox or Fit.
     // --------------------------------------------------------
 
     if (g.isFakeFullscreen ||
@@ -266,9 +265,9 @@ void LayoutGame()
     }
 
     // --------------------------------------------------------
-    // Fenêtré/maximisé par défaut : résolution native, jeu
-    // simplement centré, quel que soit ScaleMode (non utilisé
-    // ici).
+    // Default windowed/maximized: native resolution, game
+    // simply centered, regardless of ScaleMode (not used
+    // here).
     // --------------------------------------------------------
 
     else
@@ -403,9 +402,9 @@ void ResizeHostToClient(
 void PollGameResolution()
 {
     // --------------------------------------------------------
-    // Résolution native forcée (WinScaler.ini) : on ne fait
-    // jamais confiance à une lecture live potentiellement
-    // faussée par la virtualisation DPI cross-process.
+    // Forced native resolution (WinScaler.ini): never trust a
+    // live reading that could be thrown off by cross-process
+    // DPI virtualization.
     // --------------------------------------------------------
 
     if (g.configuredNativeWidth > 0 &&
@@ -471,9 +470,9 @@ void PollGameResolution()
         return;
 
     // ----------------------------------------------------
-    // Avec enableWindowedUpscale, la taille de la fenêtre
-    // host est pilotée par l'utilisateur (resize manuel ou
-    // maximize), pas par la résolution native du jeu.
+    // With enableWindowedUpscale, the host window's size is
+    // driven by the user (manual resize or maximize), not by
+    // the game's native resolution.
     // ----------------------------------------------------
 
     if (!g.enableWindowedUpscale &&

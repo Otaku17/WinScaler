@@ -1,7 +1,7 @@
 #pragma once
 
 // ============================================================
-// Utilitaires génériques (chemins, ratio, taille de fenêtre).
+// Generic utilities (paths, aspect ratio, window size).
 // ============================================================
 
 #include "AppState.h"

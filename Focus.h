@@ -3,13 +3,13 @@
 // ============================================================
 // INPUT / FOCUS
 //
-// Le jeu Ruby appartient à un AUTRE processus.
+// The Ruby game belongs to ANOTHER process.
 //
-// Pour que le clavier reste réellement sur la fenêtre Ruby,
-// on attache temporairement les queues d'entrée des deux
-// threads pendant l'opération de focus.
+// To keep the keyboard actually on the Ruby window, the input
+// queues of both threads are temporarily attached during the
+// focus operation.
 //
-// Aucun changement de layout/upscale ici.
+// No layout/upscale changes happen here.
 // ============================================================
 
 #include "AppState.h"

@@ -1,8 +1,8 @@
 #pragma once
 
 // ============================================================
-// Résolution du jeu, calcul du scale et positionnement dans
-// le panel.
+// Game resolution, scale calculation and positioning inside
+// the panel.
 // ============================================================
 
 #include "AppState.h"
@@ -14,20 +14,19 @@ bool SetGameResolution(
 // ============================================================
 // Layout
 //
-// Fenêtré normal / maximisé :
-//     jeu natif 1:1, centré.
+// Normal / maximized windowed:
+//     native 1:1 game, centered.
 //
-// Faux plein écran :
-//     upscale entier, centré.
+// Fake fullscreen:
+//     integer upscale, centered.
 // ============================================================
 
 void LayoutGame();
 
 // ============================================================
-// Redimensionne le host pour avoir EXACTEMENT la taille
-// client demandée.
+// Resizes the host to have EXACTLY the requested client size.
 //
-// Utilisé uniquement en fenêtre normale.
+// Used only in normal windowed mode.
 // ============================================================
 
 void ResizeHostToClient(
@@ -36,7 +35,7 @@ void ResizeHostToClient(
     int clientH);
 
 // ============================================================
-// Surveillance résolution
+// Resolution monitoring
 // ============================================================
 
 void PollGameResolution();

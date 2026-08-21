@@ -1,9 +1,9 @@
 #pragma once
 
 // ============================================================
-// Etat global de l'application, types et constantes partagées.
+// Global application state, types and shared constants.
 //
-// Inclus par tous les modules.
+// Included by every module.
 // ============================================================
 
 #define WIN32_LEAN_AND_MEAN
@@ -13,34 +13,34 @@
 #include <string>
 
 // ============================================================
-// Constantes
+// Constants
 // ============================================================
 
 constexpr int BASE_WIDTH = 320;
 constexpr int BASE_HEIGHT = 240;
 
 // --------------------------------------------------------
-// Scale entier maximum par défaut (faux plein écran /
-// upscale fenêtré). Configurable via WinScaler.ini
-// (MaxUpscale). Voir LoadConfig().
+// Default maximum scale (fake fullscreen / windowed
+// upscale). Configurable via WinScaler.ini (MaxUpscale).
+// See LoadConfig().
 // --------------------------------------------------------
 
 constexpr int DEFAULT_MAX_UPSCALE = 0;
 
 // --------------------------------------------------------
-// Modes de mise à l'échelle du jeu dans le panel.
+// Game scaling modes inside the panel.
 //
-// Appliqué en faux plein écran et en upscale fenêtré
+// Applied in fake fullscreen and in windowed upscale
 // (WindowedUpscale=1). Configurable via WinScaler.ini
-// (ScaleMode). Voir LoadConfig() / GetScaledRectangle().
+// (ScaleMode). See LoadConfig() / GetScaledRectangle().
 //
-// LetterBox : scale ENTIER (x1, x2, x3...) le plus grand
-//             qui tient, centré, avec bandes noires.
-//             Pixel-parfait, aucune déformation.
-// Stretch   : remplit tout le panel, étire l'image,
-//             ignore le ratio d'aspect (déformation).
-// Fit       : scale FLOTTANT, garde le ratio d'aspect,
-//             remplit au maximum, bandes minimisées.
+// LetterBox : INTEGER scale (x1, x2, x3...), the largest
+//             that fits, centered, black bars.
+//             Pixel-perfect, no distortion.
+// Stretch   : fills the whole panel, stretches the image,
+//             ignores aspect ratio (distortion).
+// Fit       : FLOATING-POINT scale, keeps aspect ratio,
+//             fills as much as possible, minimal bars.
 // --------------------------------------------------------
 
 enum class ScaleMode
@@ -51,9 +51,9 @@ enum class ScaleMode
 };
 
 // --------------------------------------------------------
-// Fichier de configuration
+// Configuration file
 //
-// Placé à côté de l'exe. Voir LoadConfig().
+// Placed next to the exe. See LoadConfig().
 // --------------------------------------------------------
 
 constexpr wchar_t CONFIG_FILE_NAME[] = L"WinScaler.ini";
@@ -67,7 +67,7 @@ constexpr UINT WM_ECSCALER_REFROCUS =
 WM_APP + 10;
 
 // ============================================================
-// Etat global
+// Global state
 // ============================================================
 
 struct AppState
@@ -97,7 +97,7 @@ struct AppState
     ScaleMode scaleMode = ScaleMode::LetterBox;
 
     // --------------------------------------------------------
-    // Titre / icône host synchronisés sur la fenêtre du jeu
+    // Host title / icon synced to the game window
     // --------------------------------------------------------
 
     std::wstring launchedExePath;
@@ -111,28 +111,28 @@ struct AppState
     bool hostIconLoaded = false;
 
     // --------------------------------------------------------
-    // Résolution native forcée (WinScaler.ini)
+    // Forced native resolution (WinScaler.ini)
     //
-    // 0 = auto-détection via GetClientSize (par défaut).
-    // Sinon, remplace la détection automatique : utile car la
-    // fenêtre du jeu appartient à un autre processus, qui peut
-    // ne pas être DPI-aware lui-même. Sa taille lue depuis notre
-    // process (DPI-aware) peut alors être virtualisée par
-    // Windows et donc légèrement fausse, ce qui fausse ensuite
-    // le calcul du scale entier de LetterBox.
+    // 0 = auto-detected via GetClientSize (default).
+    // Otherwise, overrides auto-detection: useful because the
+    // game window belongs to another process, which may not be
+    // DPI-aware itself. Its size, as read from our (DPI-aware)
+    // process, can then be virtualized by Windows and therefore
+    // slightly wrong, which then throws off the LetterBox
+    // integer scale calculation.
     // --------------------------------------------------------
 
     int configuredNativeWidth = 0;
     int configuredNativeHeight = 0;
 
     // --------------------------------------------------------
-    // Mode faux plein écran
+    // Fake fullscreen mode
     // --------------------------------------------------------
 
     bool isFakeFullscreen = false;
 
     // --------------------------------------------------------
-    // Protection layout
+    // Layout protection
     // --------------------------------------------------------
 
     bool layoutInProgress = false;
@@ -142,7 +142,7 @@ struct AppState
     bool focusRestorePending = false;
 
     // --------------------------------------------------------
-    // Résolution native réellement utilisée par le jeu
+    // Native resolution actually used by the game
     // --------------------------------------------------------
 
     int gameWidth = BASE_WIDTH;
@@ -153,7 +153,7 @@ struct AppState
         static_cast<double>(BASE_HEIGHT);
 
     // --------------------------------------------------------
-    // Résolution actuellement imposée à la fenêtre Ruby
+    // Resolution currently imposed on the Ruby window
     // --------------------------------------------------------
 
     int expectedGameWidth = BASE_WIDTH;
@@ -162,13 +162,13 @@ struct AppState
     // --------------------------------------------------------
     // Scale
     //
-    // Utilisé UNIQUEMENT en faux plein écran.
+    // Used ONLY in fake fullscreen.
     // --------------------------------------------------------
 
     int gameScale = 1;
 
     // --------------------------------------------------------
-    // Dernière géométrie du jeu
+    // Last game geometry
     // --------------------------------------------------------
 
     int lastGameX = -1;
@@ -178,21 +178,21 @@ struct AppState
     int lastGameHeight = 0;
 
     // --------------------------------------------------------
-    // Dernière taille du panel
+    // Last panel size
     // --------------------------------------------------------
 
     int lastPanelWidth = 0;
     int lastPanelHeight = 0;
 
     // --------------------------------------------------------
-    // Dernière résolution détectée
+    // Last detected resolution
     // --------------------------------------------------------
 
     int lastDetectedGameWidth = 0;
     int lastDetectedGameHeight = 0;
 
     // --------------------------------------------------------
-    // Etat fenêtre host
+    // Host window state
     // --------------------------------------------------------
 
     LONG savedStyle = 0;

@@ -41,7 +41,7 @@ void FocusGame()
     }
 
     // --------------------------------------------------------
-    // On ne vole pas le focus à une autre application.
+    // Don't steal focus from another application.
     // --------------------------------------------------------
 
     HWND foreground =
@@ -65,10 +65,10 @@ void FocusGame()
     bool attached = false;
 
     // --------------------------------------------------------
-    // La fenêtre Ruby appartient à un autre thread/processus.
+    // The Ruby window belongs to another thread/process.
     //
-    // AttachThreadInput permet au thread du host de manipuler
-    // correctement le focus clavier de la fenêtre Ruby.
+    // AttachThreadInput lets the host's thread properly
+    // manipulate the Ruby window's keyboard focus.
     // --------------------------------------------------------
 
     if (gameThread != 0 &&
@@ -82,8 +82,8 @@ void FocusGame()
     }
 
     // --------------------------------------------------------
-    // Le host reste la fenêtre active de premier niveau.
-    // Ruby est la fenêtre qui reçoit le focus clavier.
+    // The host stays the active top-level window.
+    // Ruby is the window that receives keyboard focus.
     // --------------------------------------------------------
 
     BringWindowToTop(
@@ -99,11 +99,10 @@ void FocusGame()
         g.gameWnd);
 
     // --------------------------------------------------------
-    // Vérification supplémentaire.
+    // Extra check.
     //
-    // Avec certaines applications Ruby/RGSS, le premier
-    // SetFocus peut être perdu pendant le changement
-    // de foreground.
+    // With some Ruby/RGSS applications, the first SetFocus can
+    // get lost during the foreground change.
     // --------------------------------------------------------
 
     if (GetFocus() != g.gameWnd)
@@ -141,13 +140,13 @@ void RequestFocusGame()
 }
 
 // ============================================================
-// Forward clavier
+// Keyboard forwarding
 //
-// Si le host reçoit exceptionnellement un message clavier
-// alors que Ruby devrait avoir le focus, on retransmet le
-// message directement à la fenêtre du jeu.
+// If the host exceptionally receives a keyboard message while
+// Ruby should have focus, the message is forwarded directly
+// to the game window.
 //
-// Cela ne modifie PAS le comportement graphique.
+// This does NOT change graphical behavior.
 // ============================================================
 
 bool ForwardKeyboardMessageToGame(
@@ -159,8 +158,7 @@ bool ForwardKeyboardMessageToGame(
         return false;
 
     // --------------------------------------------------------
-    // Si Ruby possède déjà le focus, aucune retransmission
-    // n'est nécessaire.
+    // If Ruby already has focus, no forwarding is needed.
     // --------------------------------------------------------
 
     HWND foreground =
@@ -173,8 +171,8 @@ bool ForwardKeyboardMessageToGame(
     }
 
     // --------------------------------------------------------
-    // Si le focus de notre thread est déjà Ruby, laisser le
-    // système traiter normalement.
+    // If our thread's focus is already Ruby, let the system
+    // handle it normally.
     // --------------------------------------------------------
 
     HWND focus =
@@ -184,17 +182,17 @@ bool ForwardKeyboardMessageToGame(
         return false;
 
     // --------------------------------------------------------
-    // On s'assure d'abord que Ruby est bien la cible.
+    // First make sure Ruby is indeed the target.
     // --------------------------------------------------------
 
     RequestFocusGame();
 
     // --------------------------------------------------------
-    // Retransmission du message clavier.
+    // Forward the keyboard message.
     //
-    // SendMessage est utilisé volontairement ici : la fenêtre
-    // Ruby appartient à un autre thread et doit recevoir le
-    // message immédiatement.
+    // SendMessage is deliberately used here: the Ruby window
+    // belongs to another thread and must receive the message
+    // immediately.
     // --------------------------------------------------------
 
     SendMessageW(

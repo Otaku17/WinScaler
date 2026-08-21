@@ -60,9 +60,8 @@ void SyncHostIcon()
     g.hostIconLoaded = true;
 
     // ----------------------------------------------------
-    // Icônes empruntées à la fenêtre/classe du jeu : elles
-    // appartiennent à l'autre processus, on ne doit jamais
-    // les détruire.
+    // Icons borrowed from the game window/class: they belong
+    // to the other process, we must never destroy them.
     // ----------------------------------------------------
 
     HICON iconBig =
@@ -103,8 +102,9 @@ void SyncHostIcon()
     bool smallOwned = false;
 
     // ----------------------------------------------------
-    // Repli : icône extraite de l'exécutable lancé. Celle-ci
-    // nous appartient (ExtractIconExW), à détruire nous-même.
+    // Fallback: icon extracted from the launched executable.
+    // This one belongs to us (ExtractIconExW), we must destroy
+    // it ourselves.
     // ----------------------------------------------------
 
     if ((!iconBig ||

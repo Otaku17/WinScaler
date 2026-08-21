@@ -90,7 +90,7 @@ LRESULT CALLBACK PanelProc(
 }
 
 // ============================================================
-// Faux plein écran
+// Fake fullscreen
 // ============================================================
 
 static void ToggleFullscreen()
@@ -104,7 +104,7 @@ static void ToggleFullscreen()
     if (g.isFakeFullscreen)
     {
         // ====================================================
-        // Retour au mode fenêtre
+        // Back to windowed mode
         // ====================================================
 
         g.isFakeFullscreen = false;
@@ -161,7 +161,7 @@ static void ToggleFullscreen()
     }
 
     // ========================================================
-    // Entrée faux plein écran
+    // Entering fake fullscreen
     // ========================================================
 
     GetWindowPlacement(
@@ -265,13 +265,13 @@ LRESULT CALLBACK HostProc(
     }
 
     // ========================================================
-    // INPUT CLAVIER
+    // KEYBOARD INPUT
     //
-    // Si, pendant une transition de focus, le host reçoit
-    // directement une touche alors que Ruby doit être actif,
-    // on la transmet à Ruby.
+    // If, during a focus transition, the host directly receives
+    // a key while Ruby should be active, it is forwarded to
+    // Ruby.
     //
-    // Alt+Entrée reste géré par RegisterHotKey / WM_HOTKEY.
+    // Alt+Enter is still handled by RegisterHotKey / WM_HOTKEY.
     // ========================================================
 
     case WM_KEYDOWN:
@@ -292,7 +292,7 @@ LRESULT CALLBACK HostProc(
         break;
 
         // ========================================================
-        // Taille du host
+        // Host size
         // ========================================================
 
     case WM_SIZE:
@@ -328,9 +328,9 @@ LRESULT CALLBACK HostProc(
             LayoutGame();
 
             // ------------------------------------------------
-            // IMPORTANT INPUT :
-            // un changement de taille ne doit pas laisser le
-            // clavier sur le host.
+            // IMPORTANT INPUT:
+            // a size change must not leave the keyboard on the
+            // host.
             // ------------------------------------------------
 
             RequestFocusGame();
@@ -340,7 +340,7 @@ LRESULT CALLBACK HostProc(
     }
 
     // ========================================================
-    // Focus / souris
+    // Focus / mouse
     // ========================================================
 
     case WM_MOUSEACTIVATE:
@@ -391,7 +391,7 @@ LRESULT CALLBACK HostProc(
             return 0;
 
         // ----------------------------------------------------
-        // Fenêtre Ruby perdue
+        // Lost Ruby window
         // ----------------------------------------------------
 
         if (!g.gameWnd ||
@@ -466,7 +466,7 @@ LRESULT CALLBACK HostProc(
         }
 
         // ----------------------------------------------------
-        // Nouvelle fenêtre Ruby éventuelle
+        // Possible new Ruby window
         // ----------------------------------------------------
 
         if (g.rubyPid != 0)
@@ -530,19 +530,19 @@ LRESULT CALLBACK HostProc(
         }
 
         // ----------------------------------------------------
-        // Surveillance de résolution
+        // Resolution monitoring
         // ----------------------------------------------------
 
         PollGameResolution();
 
         // ----------------------------------------------------
-        // Layout de sécurité
+        // Safety layout
         // ----------------------------------------------------
 
         LayoutGame();
 
         // ----------------------------------------------------
-        // Titre / icône host, alignés sur la fenêtre du jeu
+        // Host title / icon, kept in sync with the game window
         // ----------------------------------------------------
 
         SyncHostTitle();
@@ -552,8 +552,8 @@ LRESULT CALLBACK HostProc(
         // ----------------------------------------------------
         // Focus
         //
-        // Si le host est toujours l'application active mais
-        // que Ruby a perdu le focus, on le restaure.
+        // If the host is still the active application but Ruby
+        // has lost focus, restore it.
         // ----------------------------------------------------
 
         HWND foreground =

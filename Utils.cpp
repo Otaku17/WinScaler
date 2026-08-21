@@ -1,7 +1,7 @@
 #include "Utils.h"
 
 // ============================================================
-// Utilitaires
+// Utilities
 // ============================================================
 
 std::wstring GetExecutableDir()
@@ -56,7 +56,7 @@ bool IsAbsolutePathW(
 }
 
 // ============================================================
-// Ratio
+// Aspect ratio
 // ============================================================
 
 double GetAspectRatio(
@@ -75,7 +75,7 @@ double GetAspectRatio(
 }
 
 // ============================================================
-// Taille client d'une fenêtre
+// Client size of a window
 // ============================================================
 
 bool GetClientSize(

@@ -1,8 +1,8 @@
 #pragma once
 
 // ============================================================
-// Window procedures : panel (surface de rendu) et host
-// (fenêtre top-level, faux plein écran, timer, focus).
+// Window procedures: panel (render surface) and host
+// (top-level window, fake fullscreen, timer, focus).
 // ============================================================
 
 #include "AppState.h"

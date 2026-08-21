@@ -63,7 +63,7 @@ If your antivirus blocks the executable:
 | `WindowedUpscale` | `1` | `0` = windowed/maximized stays at native resolution, centered. `1` = dynamically follows `ScaleMode` based on the host window's size. |
 | `MaxUpscale` | `0` | Maximum scale (fake fullscreen and windowed upscale). `0` = unlimited. |
 | `ScaleMode` | `Fit` | `LetterBox`, `Stretch` or `Fit` (see Features). |
-| `NativeWidth` / `NativeHeight` | `640` / `480` | Forces the game's native resolution instead of auto-detection. `0` = auto-detect. |
+| `NativeWidth` / `NativeHeight` | `0` / `0` | Forces the game's native resolution instead of auto-detection. `0` = auto-detect. |
 
 ## Building
 
