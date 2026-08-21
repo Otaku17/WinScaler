@@ -101,7 +101,7 @@ If your antivirus blocks the executable:
 | Bugfix | Tester |
 | Carine | Tester |
 | Flo | Tester |
-| Joewy | Tester |
+| Joeyw | Tester |
 
 
 ## Version
