@@ -1,0 +1,53 @@
+# ============================================================
+# Visual Studio / MSBuild - dossiers et caches locaux
+# ============================================================
+.vs/
+*.vcxproj.user
+*.VC.db
+*.VC.opendb
+*.suo
+*.sdf
+*.opensdf
+*.user
+
+# ============================================================
+# Sorties de build (régénérées à chaque compilation)
+# ============================================================
+/Debug/
+/Release/
+/x64/
+/x86/
+/WinScaler/
+
+*.obj
+*.exe
+*.pdb
+*.ilk
+*.iobj
+*.ipdb
+*.exp
+*.lib
+*.res
+*.recipe
+*.tlog
+*.log
+
+# ============================================================
+# Config générée au premier lancement (WinScaler.ini)
+#
+# Contient un chemin d'exe potentiellement spécifique à la
+# machine (GameExe). Chaque utilisateur en obtient un nouveau
+# automatiquement au premier lancement s'il est absent.
+# ============================================================
+WinScaler.ini
+
+# ============================================================
+# Jeu embarqué (à ne jamais commiter avec l'outil)
+# ============================================================
+game.exe
+*.rgssad
+*.rgss2a
+*.rgss3a
+/Data/
+/Graphics/
+/Audio/
