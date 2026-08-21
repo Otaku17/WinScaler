@@ -92,6 +92,16 @@ If your antivirus blocks the executable:
 - Executable is currently unsigned (see antivirus section above).
 - The game's own internal rendering stays sharp or blurry depending on whether **its own** process is DPI-aware WinScaler cannot fix that from the outside.
 
+## Contributors
+
+| Name | Role |
+|---|---|
+| Ota | Lead Developer |
+| Sukinae | Original Concept |
+| Bugfix | Tester |
+| Carine | Tester |
+| Flo | Tester |
+
 ## Version
 
 Current version: **1.0.0**
