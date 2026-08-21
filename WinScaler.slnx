@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="WinScaler.vcxproj" Id="7dbb435a-b311-446b-b353-5057cadefea4" />
+</Solution>
